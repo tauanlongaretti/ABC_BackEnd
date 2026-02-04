@@ -3,8 +3,16 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import LabelEncoder
 import os
 
-#Path to the CSV file with data to train the model
-CSV_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "data", "HistoricalSalesData.csv")
+# Determine CSV path dynamically
+if os.path.exists("/app/data/HistoricalSalesData.csv"):
+    CSV_PATH = "/app/data/HistoricalSalesData.csv"   # Docker
+else:
+    # Local dev
+    PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    CSV_PATH = os.path.join(PROJECT_ROOT, "data", "HistoricalSalesData.csv")
+
+print("MODEL CSV_PATH:", CSV_PATH)
+print("Exists:", os.path.exists(CSV_PATH))
 
 def train_model():
     # Loading the CSV file with past sales info

@@ -1,0 +1,15 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore virtual environment
+venv/
+
+# Ignore environment files
+.env
+
+# Ignore logs
+logs/prediction_log.csv
+
+# Ignore Fly configuration (if you don’t want it in the build context)
+fly.toml

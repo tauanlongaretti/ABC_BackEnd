@@ -8,8 +8,12 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-#Loads previous sold items' data from the CSV
-CSV_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "HistoricalSalesData.csv")
+# Load CSV in app.py for frontend data
+from services.model import CSV_PATH   # use same path as model.py
+
+print("APP CSV_PATH:", CSV_PATH)
+print("Exists:", os.path.exists(CSV_PATH))
+
 df = pd.read_csv(CSV_PATH)
 
 # Makes sure that columns have the right data types
@@ -22,6 +26,10 @@ items = df['Item Name'].dropna().unique().tolist()
 
 # Trains models at startup
 item_avg_dict, le = train_model()
+
+@app.route("/")
+def health_check():
+    return {"status": "ok"}
 
 # Defines the route for predicting item sale value
 @app.route("/predict", methods=["POST"])
